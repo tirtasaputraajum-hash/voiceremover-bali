@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hasil VoiceRemover</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #101826; color: #f5f7ff; padding: 20px; }
+        .box { background: #182338; padding: 24px; border-radius: 16px; max-width: 560px; margin: auto; }
+        .card { background: #0f1728; border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+        audio { width: 100%; margin: 10px 0; }
+        .btn { display: block; padding: 13px; text-decoration: none; border-radius: 10px; margin-bottom: 10px; color: white; font-weight: bold; }
+        .dl { background: #00b894; color: #07251f; }
+        .continue { background: #0984e3; }
+        .back { color: #99a9c4; text-decoration: none; display: block; margin-top: 14px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Pemisahan Berhasil</h2>
+
+        {% if instrumental_file %}
+        <div class="card">
+            <h3>Musik (Instrumental / Karaoke)</h3>
+            <audio controls><source src="/static/{{ instrumental_file }}" type="audio/mpeg"></audio>
+            <a href="/static/{{ instrumental_file }}" download class="btn dl">Download Musik Karaoke</a>
+        </div>
+        {% endif %}
+
+        {% if vocal_file %}
+        <div class="card">
+            <h3>Vokal Saja</h3>
+            <audio controls><source src="/static/{{ vocal_file }}" type="audio/mpeg"></audio>
+            <a href="/static/{{ vocal_file }}" download class="btn dl">Download Vokal</a>
+        </div>
+        {% endif %}
+
+        {% if instrumental_file %}
+        <a href="{{ url_for('continue_flow') }}?audio={{ instrumental_file }}" class="btn continue">Lanjutkan Buat Video Karaoke</a>
+        {% endif %}
+
+        <a href="/" class="back">Kembali</a>
+    </div>
+</body>
+</html>

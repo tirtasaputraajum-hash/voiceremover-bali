@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buat Video Karaoke</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #101826; color: #f5f7ff; padding: 20px; }
+        .box { background: #182338; padding: 24px; border-radius: 16px; max-width: 620px; margin: auto; text-align: left; }
+        label { display: block; margin: 12px 0 6px; font-weight: bold; }
+        input, select, textarea, button { width: 100%; padding: 11px; border-radius: 10px; border: 1px solid #32435f; background: #0f1728; color: #f5f7ff; }
+        textarea { min-height: 130px; resize: vertical; }
+        button { background: #00b894; color: #07251f; border: none; font-weight: bold; cursor: pointer; margin-top: 14px; }
+        .err { color: #ff7675; margin-top: 8px; }
+        .hint { color: #9db1d2; font-size: 13px; margin-top: 4px; }
+        .actions { margin-top: 12px; text-align: center; }
+        .actions a { color: #9db1d2; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Buat Video Dari Musik Karaoke</h2>
+        <audio controls style="width:100%; margin-bottom:10px;"><source src="/static/{{ audio_file }}" type="audio/mpeg"></audio>
+        {% if error %}<div class="err">{{ error }}</div>{% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" name="audio_file" value="{{ audio_file }}">
+
+            <label>Upload Gambar atau Video</label>
+            <input type="file" name="media_file" accept="image/*,video/*" required>
+
+            <label>Pilihan CC / Subtitle</label>
+            <select name="subtitle_mode">
+                <option value="none">Tanpa Subtitle</option>
+                <option value="burn">Subtitle Menempel di Video (Hard Subtitle)</option>
+                <option value="srt">Buat File Subtitle SRT (terpisah)</option>
+            </select>
+
+            <label>Posisi Subtitle</label>
+            <select name="subtitle_position">
+                <option value="bottom">Bawah</option>
+                <option value="center">Tengah</option>
+                <option value="top">Atas</option>
+            </select>
+
+            <label>Teks CC / Subtitle Sesuai Input</label>
+            <textarea name="subtitle_text" placeholder="Tulis lirik/teks. Satu baris = satu subtitle."></textarea>
+            <div class="hint">Sistem akan membagi waktu subtitle secara otomatis berdasarkan jumlah baris.</div>
+
+            <button type="submit">Buat Video Karaoke</button>
+        </form>
+
+        <div class="actions">
+            <a href="/">Kembali ke awal</a>
+        </div>
+    </div>
+</body>
+</html>

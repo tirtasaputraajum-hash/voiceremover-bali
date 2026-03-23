@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lewati Iklan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #101826; color: #f5f7ff; padding: 20px; }
+        .box { background: #182338; padding: 24px; border-radius: 16px; max-width: 620px; margin: auto; }
+        .banner {
+            border: 2px dashed #4f6a96;
+            background: linear-gradient(135deg, #243552, #192740);
+            border-radius: 12px;
+            padding: 22px;
+            margin: 16px 0;
+        }
+        .banner h3 { margin: 0 0 8px; }
+        .banner p { margin: 0; color: #c6d3ea; }
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #00b894;
+            color: #07251f;
+        }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .small { color: #9db1d2; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Iklan Sebelum Lanjut</h2>
+        <p class="small">Untuk melanjutkan proses, silakan lewati 1 iklan banner terlebih dahulu.</p>
+
+        <div class="banner">
+            <h3>Area Banner Iklan</h3>
+            <script async="async" data-cfasync="false" src="https://pl28962375.profitablecpmratenetwork.com/a531375ad771ab4a63bd5bde5ef152c4/invoke.js"></script>
+            <div id="container-a531375ad771ab4a63bd5bde5ef152c4"></div>
+        </div>
+
+        <form method="post">
+            <button id="continueBtn" type="submit" disabled>Lanjutkan dalam <span id="counter">8</span> detik</button>
+        </form>
+    </div>
+
+    <script>
+        let timeLeft = 8;
+        const btn = document.getElementById('continueBtn');
+        const counter = document.getElementById('counter');
+
+        const timer = setInterval(() => {
+            timeLeft -= 1;
+            counter.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                btn.disabled = false;
+                btn.textContent = 'Lanjutkan Proses';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

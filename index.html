@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VoiceRemover AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #101826; color: #f5f7ff; padding: 20px; }
+        .box { border: 2px solid #00b894; padding: 28px; border-radius: 20px; background: #182338; max-width: 640px; margin: auto; text-align: left; }
+        h1, p { text-align: center; }
+        label { display: block; font-weight: bold; margin: 12px 0 6px; }
+        input, select, button { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #32435f; background: #0f1728; color: #f5f7ff; }
+        button { background: #00b894; color: #08231d; border: none; cursor: pointer; font-weight: bold; margin-top: 14px; }
+        #load { display: none; color: #ffd166; margin-top: 16px; text-align: center; }
+        .err { color: #ff7675; margin-bottom: 10px; font-size: 14px; text-align: center; }
+        .hint { color: #a3b6d6; font-size: 13px; margin-top: 6px; }
+        .src-block { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>VoiceRemover Karaoke</h1>
+        <p>Pisahkan musik dan vokal lalu lanjutkan ke video karaoke.</p>
+
+        {% if error %}<div class="err">{{ error }}</div>{% endif %}
+
+        <form method="post" enctype="multipart/form-data" onsubmit="document.getElementById('load').style.display='block'">
+            <label>Sumber Audio</label>
+            <select name="input_source" id="input_source">
+                <option value="youtube" {% if input_source == 'youtube' %}selected{% endif %}>Link YouTube</option>
+                <option value="upload" {% if input_source == 'upload' %}selected{% endif %}>Upload dari perangkat</option>
+                <option value="internal" {% if input_source == 'internal' %}selected{% endif %}>Pilih dari folder internal</option>
+            </select>
+
+            <div id="src-youtube" class="src-block">
+                <label>Link YouTube</label>
+                <input type="text" name="youtube_link" placeholder="Tempel link YouTube...">
+            </div>
+
+            <div id="src-upload" class="src-block">
+                <label>Upload File Audio</label>
+                <input type="file" name="file" accept="audio/*">
+            </div>
+
+            <div id="src-internal" class="src-block">
+                <label>Musik dari Folder Internal (`/home/kts/VoiceRemover/library`)</label>
+                <select name="internal_track">
+                    <option value="">-- pilih file --</option>
+                    {% for t in tracks %}
+                    <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+                <div class="hint">Jika kosong, tambahkan file mp3/wav/m4a ke folder `library`.</div>
+            </div>
+
+            <label>Hasil Generate</label>
+            <select name="output_mode">
+                <option value="both" {% if output_mode == 'both' %}selected{% endif %}>Musik + Vokal</option>
+                <option value="music" {% if output_mode == 'music' %}selected{% endif %}>Musik saja (instrumental/karaoke)</option>
+                <option value="vocal" {% if output_mode == 'vocal' %}selected{% endif %}>Vokal saja</option>
+            </select>
+
+            <button type="submit">Proses Sekarang</button>
+        </form>
+
+        <div id="load">AI sedang memisahkan musik/vokal. Mohon tunggu...</div>
+    </div>
+
+    <script>
+        const sourceSelect = document.getElementById('input_source');
+        const youtubeBlock = document.getElementById('src-youtube');
+        const uploadBlock = document.getElementById('src-upload');
+        const internalBlock = document.getElementById('src-internal');
+
+        function updateSourceBlock() {
+            const val = sourceSelect.value;
+            youtubeBlock.style.display = val === 'youtube' ? 'block' : 'none';
+            uploadBlock.style.display = val === 'upload' ? 'block' : 'none';
+            internalBlock.style.display = val === 'internal' ? 'block' : 'none';
+        }
+
+        sourceSelect.addEventListener('change', updateSourceBlock);
+        updateSourceBlock();
+    </script>
+</body>
+</html>
